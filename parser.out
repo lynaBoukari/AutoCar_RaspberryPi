@@ -1,0 +1,163 @@
+Created by PLY version 3.8 (http://www.dabeaz.com/ply)
+
+Grammar
+
+Rule 0     S' -> prog
+Rule 1     prog -> commandDC
+Rule 2     prog -> commandSERVO
+Rule 3     prog -> STOP
+Rule 4     prog -> empty
+Rule 5     commandDC -> FORWARD FLOAT INT
+Rule 6     commandDC -> REVERSE FLOAT INT
+Rule 7     commandSERVO -> TURNLEFT FLOAT
+Rule 8     commandSERVO -> TURNRIGHT FLOAT
+Rule 9     empty -> <empty>
+
+Terminals, with rules where they appear
+
+FLOAT                : 5 6 7 8
+FORWARD              : 5
+INT                  : 5 6
+REVERSE              : 6
+STOP                 : 3
+TURNLEFT             : 7
+TURNRIGHT            : 8
+error                : 
+
+Nonterminals, with rules where they appear
+
+commandDC            : 1
+commandSERVO         : 2
+empty                : 4
+prog                 : 0
+
+Parsing method: LALR
+
+state 0
+
+    (0) S' -> . prog
+    (1) prog -> . commandDC
+    (2) prog -> . commandSERVO
+    (3) prog -> . STOP
+    (4) prog -> . empty
+    (5) commandDC -> . FORWARD FLOAT INT
+    (6) commandDC -> . REVERSE FLOAT INT
+    (7) commandSERVO -> . TURNLEFT FLOAT
+    (8) commandSERVO -> . TURNRIGHT FLOAT
+    (9) empty -> .
+
+    STOP            shift and go to state 4
+    FORWARD         shift and go to state 6
+    REVERSE         shift and go to state 7
+    TURNLEFT        shift and go to state 8
+    TURNRIGHT       shift and go to state 9
+    $end            reduce using rule 9 (empty -> .)
+
+    prog                           shift and go to state 1
+    commandDC                      shift and go to state 2
+    commandSERVO                   shift and go to state 3
+    empty                          shift and go to state 5
+
+state 1
+
+    (0) S' -> prog .
+
+
+
+state 2
+
+    (1) prog -> commandDC .
+
+    $end            reduce using rule 1 (prog -> commandDC .)
+
+
+state 3
+
+    (2) prog -> commandSERVO .
+
+    $end            reduce using rule 2 (prog -> commandSERVO .)
+
+
+state 4
+
+    (3) prog -> STOP .
+
+    $end            reduce using rule 3 (prog -> STOP .)
+
+
+state 5
+
+    (4) prog -> empty .
+
+    $end            reduce using rule 4 (prog -> empty .)
+
+
+state 6
+
+    (5) commandDC -> FORWARD . FLOAT INT
+
+    FLOAT           shift and go to state 10
+
+
+state 7
+
+    (6) commandDC -> REVERSE . FLOAT INT
+
+    FLOAT           shift and go to state 11
+
+
+state 8
+
+    (7) commandSERVO -> TURNLEFT . FLOAT
+
+    FLOAT           shift and go to state 12
+
+
+state 9
+
+    (8) commandSERVO -> TURNRIGHT . FLOAT
+
+    FLOAT           shift and go to state 13
+
+
+state 10
+
+    (5) commandDC -> FORWARD FLOAT . INT
+
+    INT             shift and go to state 14
+
+
+state 11
+
+    (6) commandDC -> REVERSE FLOAT . INT
+
+    INT             shift and go to state 15
+
+
+state 12
+
+    (7) commandSERVO -> TURNLEFT FLOAT .
+
+    $end            reduce using rule 7 (commandSERVO -> TURNLEFT FLOAT .)
+
+
+state 13
+
+    (8) commandSERVO -> TURNRIGHT FLOAT .
+
+    $end            reduce using rule 8 (commandSERVO -> TURNRIGHT FLOAT .)
+
+
+state 14
+
+    (5) commandDC -> FORWARD FLOAT INT .
+
+    $end            reduce using rule 5 (commandDC -> FORWARD FLOAT INT .)
+
+
+state 15
+
+    (6) commandDC -> REVERSE FLOAT INT .
+
+    $end            reduce using rule 6 (commandDC -> REVERSE FLOAT INT .)
+

@@ -1,6 +1,10 @@
 import ply.lex as lex
 import ply.yacc as yacc
 import sys
+import Rpi.GPIO as gpio
+import time
+import sys
+
 StringTypes = (str, bytes)
 
 
@@ -50,13 +54,13 @@ def p_prog(p) :
     | empty
     '''
     if p[1][0] == 'REVERSE':       
-            traitementDC(p[1]);
+            traitementREVERSE(p[1]);
     elif (p[1][0]) == 'FORWARD':       
-            traitementDC(p[1]);
+          traitementFORWARD(p[1]);
     elif (p[1][0]) == 'TURNRIGHT' :
-            traitementSERVO(p[1]);
+            traitementTURNRIGHT(p[1]);
     elif p[1][0] == 'TURNLEFT' :
-            traitementSERVO(p[1]);
+            traitementTURNLEFT(p[1]);
     elif p[1] == 'STOP' :
             traitementSTOP(p[1]);
             
@@ -84,18 +88,73 @@ def p_empty(p):
     '''
     p[0]=None
 
-def traitementDC(p) :
-    print('here we go traitement DC motor')
-    command,power,time=p
 
-def traitementSERVO(p) :
-    print('here we go traitement SERVO motor')
+/*   Traitements */
+
+def init():
+
+    gpio.setmode(gpio.BOARD)
+    gpio.setup(7, gpio.OUT)
+    gpio.setup(11, gpio.OUT)
+    gpio.setup(13, gpio.OUT)
+    gpio.setup(15, gpio.OUT)
+
+
+def traitementFORWARD(p) :
+    print('here we go traitement DC motor FORWARD')
+    command,power,time=p
+    init()
+    gpio.output (7, True)
+    gpio.output (11, False)
+    gpio.output (13, False)
+    gpio.output (15, True)
+    time.sleep(time) 
+    gpio.cleanup()
+    
+def traitementREVERSE(p) :
+    print('here we go traitement DC motor FORWARD')
+    command,power,time=p
+    init()
+    gpio.output (7, False)
+    gpio.output (11, True)
+    gpio.output (13, True)
+    gpio.output (15, False)
+    time.sleep(time)
+    gpio.cleanup()
+
+
+def traitementTURNRIGHT(p) :
+    print('here we go traitement TURNRIGHT')
     command,angle=p
+    init()
+    gpio.output (7, False)
+    gpio.output (11, True)
+    gpio.output (13, False)
+    gpio.output (15, False)
+    time.sleep(angle)
+    gpio.cleanup()
+     
+def traitementTURNLEFT(p) :
+    print('here we go traitement TURNLEFT')
+    command,angle=p
+    init() 
+    gpio.output (7, True)
+    gpio.output (11, True)
+    gpio.output (13, True)
+    gpio.output (15, False)
+    time.sleep(angle)
+    gpio.cleanup()
  
 def traitementSTOP(p) :
     print('here we go traitement STOP motor')
     command=p
-    
+    init()
+    gpio.output (7, False)
+    gpio.output (11,False)
+    gpio.output (13, False)
+    gpio.output (15, False)
+    gpio.cleanup()
+ 
 parser = yacc.yacc()
 while True :
     try :

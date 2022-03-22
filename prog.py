@@ -89,7 +89,7 @@ def p_empty(p):
     p[0]=None
 
 
-/*   Traitements */
+
 
 def init():
 

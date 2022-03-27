@@ -1,14 +1,11 @@
+import serial                                                              #Serial imported for Serial communication
+import time
 import ply.lex as lex
 import ply.yacc as yacc
 import sys
-import Rpi.GPIO as gpio
-import time
-import sys
-
 StringTypes = (str, bytes)
 
-
-
+#Lexicale Analysis
 tokens = ('REVERSE','FORWARD','TURNLEFT','TURNRIGHT','STOP','INT', 'FLOAT')
 
 def t_FORWARD(t):
@@ -45,7 +42,8 @@ def t_error(t):
     t.lexer.skip(1)
     
 lexer= lex.lex()
-
+#----------------------------------------------
+#Syntaxix Analysis
 def p_prog(p) :
     '''
     prog : commandDC
@@ -54,15 +52,15 @@ def p_prog(p) :
     | empty
     '''
     if p[1][0] == 'REVERSE':       
-            traitementREVERSE(p[1]);
+           traitementREVERSE(p[1]);
     elif (p[1][0]) == 'FORWARD':       
           traitementFORWARD(p[1]);
     elif (p[1][0]) == 'TURNRIGHT' :
-            traitementTURNRIGHT(p[1]);
+          traitementTURNRIGHT(p[1]);
     elif p[1][0] == 'TURNLEFT' :
-            traitementTURNLEFT(p[1]);
+          traitementTURNLEFT(p[1]);
     elif p[1] == 'STOP' :
-            traitementSTOP(p[1]);
+          traitementSTOP(p[1]);
             
     else : print("No command in input")
     
@@ -75,8 +73,8 @@ def p_commandDC(p) :
 
 def p_commandSERVO(p) :
     '''
-    commandSERVO : TURNLEFT FLOAT
-        | TURNRIGHT FLOAT
+    commandSERVO : TURNLEFT INT
+        | TURNRIGHT INT
     '''
     p[0] = (p[1],p[2])
 def p_error(p):
@@ -90,75 +88,65 @@ def p_empty(p):
 
 
 
-
-def init():
-
-    gpio.setmode(gpio.BOARD)
-    gpio.setup(7, gpio.OUT)
-    gpio.setup(11, gpio.OUT)
-    gpio.setup(13, gpio.OUT)
-    gpio.setup(15, gpio.OUT)
-
-
 def traitementFORWARD(p) :
     print('here we go traitement DC motor FORWARD')
-    command,power,time=p
-    init()
-    gpio.output (7, True)
-    gpio.output (11, False)
-    gpio.output (13, False)
-    gpio.output (15, True)
-    time.sleep(time) 
-    gpio.cleanup()
+    command,power,temps=p
+    ArduinoUnoSerial.write(bytes('0', 'utf-8'))
+    
+    while True :
+     print (ArduinoUnoSerial.readline())                         #read the serial data and print it as line 
+     print ("You have new message from Arduino")
+    
+    time.sleep(temps) #send 1 to the arduino's Data code        
+    
     
 def traitementREVERSE(p) :
-    print('here we go traitement DC motor FORWARD')
-    command,power,time=p
-    init()
-    gpio.output (7, False)
-    gpio.output (11, True)
-    gpio.output (13, True)
-    gpio.output (15, False)
-    time.sleep(time)
-    gpio.cleanup()
+    
+    print('here we go traitement DC motor REVERSE')
+    command,power,temps=p
+    #ArduinoUnoSerial.write(b'REVERSE')
+    ArduinoUnoSerial.write(bytes('1' , 'utf-8'))
+    
+    #send 1 to the arduino's Data code        
+    time.sleep(temps)   
 
 
 def traitementTURNRIGHT(p) :
     print('here we go traitement TURNRIGHT')
-    command,angle=p
-    init()
-    gpio.output (7, False)
-    gpio.output (11, True)
-    gpio.output (13, False)
-    gpio.output (15, False)
-    time.sleep(angle)
-    gpio.cleanup()
+    command,temps=p
+   # ArduinoUnoSerial.write(b'TURNRIGHT')
+    ArduinoUnoSerial.write(bytes('2', 'utf-8'))
+    #send 1 to the arduino's Data code        
+    time.sleep(temps) 
      
 def traitementTURNLEFT(p) :
     print('here we go traitement TURNLEFT')
-    command,angle=p
-    init() 
-    gpio.output (7, True)
-    gpio.output (11, True)
-    gpio.output (13, True)
-    gpio.output (15, False)
-    time.sleep(angle)
-    gpio.cleanup()
+    command,temps=p
+    #ArduinoUnoSerial.write(b'TURNLEFT')
+    ArduinoUnoSerial.write(bytes('3', 'utf-8')) #send 1 to the arduino's Data code        
+    time.sleep(temps) 
  
 def traitementSTOP(p) :
     print('here we go traitement STOP motor')
     command=p
-    init()
-    gpio.output (7, False)
-    gpio.output (11,False)
-    gpio.output (13, False)
-    gpio.output (15, False)
-    gpio.cleanup()
+    #ArduinoUnoSerial.write(b'STOP')
+    ArduinoUnoSerial.write(bytes('4', 'utf-8'))#send 1 to the arduino's Data code        
+    time.sleep(2) 
  
 parser = yacc.yacc()
-while True :
+#--------------------------------------------
+
+
+#Required to use delay functions   
+ArduinoUnoSerial = serial.Serial('com4',9600)#Create Serial port object called ArduinoUnoSerialData time.sleep(2)                                                             #wait for 2 secounds for the communication to get established
+ArduinoUnoSerial.reset_input_buffer()
+print (ArduinoUnoSerial.readline())                         #read the serial data and print it as line 
+print ("You have new message from Arduino")
+
+while True :  #get input from user
     try :
-        s=input('')
+        var=input('')
     except EOFError:
         break
-    parser.parse(s)
+    parser.parse(var)
+

@@ -9,15 +9,15 @@ Rule 3     prog -> STOP
 Rule 4     prog -> empty
 Rule 5     commandDC -> FORWARD FLOAT INT
 Rule 6     commandDC -> REVERSE FLOAT INT
-Rule 7     commandSERVO -> TURNLEFT FLOAT
-Rule 8     commandSERVO -> TURNRIGHT FLOAT
+Rule 7     commandSERVO -> TURNLEFT INT
+Rule 8     commandSERVO -> TURNRIGHT INT
 Rule 9     empty -> <empty>
 
 Terminals, with rules where they appear
 
-FLOAT                : 5 6 7 8
+FLOAT                : 5 6
 FORWARD              : 5
-INT                  : 5 6
+INT                  : 5 6 7 8
 REVERSE              : 6
 STOP                 : 3
 TURNLEFT             : 7
@@ -42,8 +42,8 @@ state 0
     (4) prog -> . empty
     (5) commandDC -> . FORWARD FLOAT INT
     (6) commandDC -> . REVERSE FLOAT INT
-    (7) commandSERVO -> . TURNLEFT FLOAT
-    (8) commandSERVO -> . TURNRIGHT FLOAT
+    (7) commandSERVO -> . TURNLEFT INT
+    (8) commandSERVO -> . TURNRIGHT INT
     (9) empty -> .
 
     STOP            shift and go to state 4
@@ -108,16 +108,16 @@ state 7
 
 state 8
 
-    (7) commandSERVO -> TURNLEFT . FLOAT
+    (7) commandSERVO -> TURNLEFT . INT
 
-    FLOAT           shift and go to state 12
+    INT             shift and go to state 12
 
 
 state 9
 
-    (8) commandSERVO -> TURNRIGHT . FLOAT
+    (8) commandSERVO -> TURNRIGHT . INT
 
-    FLOAT           shift and go to state 13
+    INT             shift and go to state 13
 
 
 state 10
@@ -136,16 +136,16 @@ state 11
 
 state 12
 
-    (7) commandSERVO -> TURNLEFT FLOAT .
+    (7) commandSERVO -> TURNLEFT INT .
 
-    $end            reduce using rule 7 (commandSERVO -> TURNLEFT FLOAT .)
+    $end            reduce using rule 7 (commandSERVO -> TURNLEFT INT .)
 
 
 state 13
 
-    (8) commandSERVO -> TURNRIGHT FLOAT .
+    (8) commandSERVO -> TURNRIGHT INT .
 
-    $end            reduce using rule 8 (commandSERVO -> TURNRIGHT FLOAT .)
+    $end            reduce using rule 8 (commandSERVO -> TURNRIGHT INT .)
 
 
 state 14

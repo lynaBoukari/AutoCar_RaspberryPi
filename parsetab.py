@@ -5,9 +5,9 @@ _tabversion = '3.8'
 
 _lr_method = 'LALR'
 
-_lr_signature = '58BE475FE8304B2ACDED6242F3DF6E5C'
+_lr_signature = '40CC0A2431DFE7C19DA68EBAF02F0F75'
     
-_lr_action_items = {'STOP':([0,],[4,]),'FORWARD':([0,],[6,]),'REVERSE':([0,],[7,]),'TURNLEFT':([0,],[8,]),'TURNRIGHT':([0,],[9,]),'$end':([0,1,2,3,4,5,12,13,14,15,],[-9,0,-1,-2,-3,-4,-7,-8,-5,-6,]),'FLOAT':([6,7,8,9,],[10,11,12,13,]),'INT':([10,11,],[14,15,]),}
+_lr_action_items = {'STOP':([0,],[4,]),'FORWARD':([0,],[6,]),'REVERSE':([0,],[7,]),'TURNLEFT':([0,],[8,]),'TURNRIGHT':([0,],[9,]),'$end':([0,1,2,3,4,5,12,13,14,15,],[-9,0,-1,-2,-3,-4,-7,-8,-5,-6,]),'FLOAT':([6,7,],[10,11,]),'INT':([8,9,10,11,],[12,13,14,15,]),}
 
 _lr_action = {}
 for _k, _v in _lr_action_items.items():
@@ -26,13 +26,13 @@ for _k, _v in _lr_goto_items.items():
 del _lr_goto_items
 _lr_productions = [
   ("S' -> prog","S'",1,None,None,None),
-  ('prog -> commandDC','prog',1,'p_prog','prog.py',47),
-  ('prog -> commandSERVO','prog',1,'p_prog','prog.py',48),
-  ('prog -> STOP','prog',1,'p_prog','prog.py',49),
-  ('prog -> empty','prog',1,'p_prog','prog.py',50),
-  ('commandDC -> FORWARD FLOAT INT','commandDC',3,'p_commandDC','prog.py',67),
-  ('commandDC -> REVERSE FLOAT INT','commandDC',3,'p_commandDC','prog.py',68),
-  ('commandSERVO -> TURNLEFT FLOAT','commandSERVO',2,'p_commandSERVO','prog.py',74),
-  ('commandSERVO -> TURNRIGHT FLOAT','commandSERVO',2,'p_commandSERVO','prog.py',75),
-  ('empty -> <empty>','empty',0,'p_empty','prog.py',83),
+  ('prog -> commandDC','prog',1,'p_prog','prog.py',49),
+  ('prog -> commandSERVO','prog',1,'p_prog','prog.py',50),
+  ('prog -> STOP','prog',1,'p_prog','prog.py',51),
+  ('prog -> empty','prog',1,'p_prog','prog.py',52),
+  ('commandDC -> FORWARD FLOAT INT','commandDC',3,'p_commandDC','prog.py',69),
+  ('commandDC -> REVERSE FLOAT INT','commandDC',3,'p_commandDC','prog.py',70),
+  ('commandSERVO -> TURNLEFT INT','commandSERVO',2,'p_commandSERVO','prog.py',76),
+  ('commandSERVO -> TURNRIGHT INT','commandSERVO',2,'p_commandSERVO','prog.py',77),
+  ('empty -> <empty>','empty',0,'p_empty','prog.py',85),
 ]
